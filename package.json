@@ -1,0 +1,23 @@
+{
+  "name": "revisanode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "fizzbuzz.js",
+  "scripts": {
+    "dev":"nodemon servapp.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tjvj07/revisanode.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tjvj07/revisanode/issues"
+  },
+  "homepage": "https://github.com/Tjvj07/revisanode#readme",
+  "dependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
