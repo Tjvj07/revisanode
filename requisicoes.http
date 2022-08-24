@@ -1,0 +1,9 @@
+get https://3000-tjvj07-revisanode-c373ttcwm3k.ws-us63.gitpod.io/transacoes
+
+####
+
+POST https://3000-tjvj07-revisanode-c373ttcwm3k.ws-us63.gitpod.io/transacoes
+Content-Type: application/json
+Meu-Header:"mjnjkhjhkjhkjh"
+
+{"valor":"10"}

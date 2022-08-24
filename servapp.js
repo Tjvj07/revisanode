@@ -1,13 +1,28 @@
-const http = require('http');
+const express = require('express')
 
-const port = 3000;
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Ola TJ',);
-});
+const TransacoesRepositorio = require("./transacoes-repositorio")
+const app = express()
+const port = 3000
+app.use(express.json());
 
-server.listen(port, () => {
-  console.log(`Servidor ouvindo na porta ${port}`);
-});
+
+app.use(express.static(`${__dirname}/public`))
+
+app.get('/transacoes', (req, res) => {
+    const repositorio = new TransacoesRepositorio()
+    const transacoes = repositorio.listarTransacoes()
+    res.send(transacoes)
+})
+
+app.post('/transacoes',(req, res) =>{
+  const repositorio = new TransacoesRepositorio()
+  const transacao = req.body
+  repositorio.criarTransacoes(transacao)
+  res.status(201).send(transacao)
+
+})
+
+app.listen(port, () => {
+    console.log(`Servidor ouvindo na porta ${port}`)
+})
