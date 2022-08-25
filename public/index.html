@@ -1,0 +1,260 @@
+<style type="text/css">
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;700&display=swap');
+
+* {
+  font-family: 'Source Sans 3', sans-serif;
+  color: #2f2f33;
+  margin: 0 auto;
+}
+
+.pagina {
+  max-width: 896px;
+  padding: 0 16px;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.conteudo {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  font-size: 51px;
+  font-weight: bold;
+  margin-top: 40px;
+  margin-bottom: 56px;
+}
+
+.informacao {
+  width: 100%;
+  text-align: center;
+  background-color: #F5F6FA;
+  padding: 16px 0;
+  border-radius: 8px;
+  margin-bottom: 40px;
+}
+
+.informacao p {
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.lista-transacoes {
+  width: 100%;
+}
+
+.lista-transacoes .coluna-descricao {
+  text-align: left;
+}
+
+.lista-transacoes .coluna-categoria {
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.lista-transacoes .coluna-valor {
+  text-align: right;
+}
+
+.lista-transacoes th {
+  padding: 8px 0;
+}
+
+.lista-transacoes td {
+  padding: 16px 0;
+}
+
+.lista-transacoes h3 {
+  font-size: 14px;
+  color: #757680;
+}
+
+.botoes {
+  padding: 24px 0;
+}
+
+.botoes button {
+  padding: 8px 24px;
+  border: 0;
+  border-radius: 8px;
+  font-weight: 500;
+  line-height: 24px;
+  font-size: 18px;
+  min-width: 200px;
+  cursor: pointer;
+  letter-spacing: 0.4px;
+}
+
+.botoes button:hover {
+  transform: scale(1.0175);
+  opacity: 0.9;
+}
+
+.botoes .despesa {
+  background-color: #fff;
+  color: #E02B57;
+}
+
+.botoes .receita {
+  background-color: #E02B57;
+  color: #fff;
+}
+
+@media only screen and (max-width: 600px) {
+  .botoes,
+  .botoes button {
+    width: 100%;
+  }
+}
+</style>
+
+
+<div class='pagina'>
+    <div class='conteudo'>
+      <h1>Planilha de gastos</h1>
+  
+      <div class='informacao'>
+        <p id='saldo'>Carregando saldo...</p>
+      </div>
+  
+      <table class='lista-transacoes'>
+        <thead>
+          <th class='coluna-descricao'>
+            <h3>DESCRIÇÃO</h3>
+          </th>
+          <th class='coluna-categoria'>
+            <h3>CATEGORIA</h3>
+          </th>
+          <th class='coluna-valor'>
+            <h3>VALOR</h3>
+          </th>
+        </thead>
+        <tbody id='lista-transacoes-conteudo'>
+          <tr>
+            <td>Carregando dados...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class='botoes'>
+      <button class='despesa' id='botao-despesa'>Adicionar despesa</button>
+      <button class='receita' id='botao-receita'>Adicionar receita</button>
+    </div>
+  </div>
+  <script>
+    function adicionarDespesa() {
+  const descricaoDespesa = window.prompt('Qual a descricao de sua despesa?');
+  const valorDespesa = window.prompt('Qual o valor de sua despesa?');
+  
+  if (valorDespesa.indexOf(',') > 0) {
+    alert('Você deve digitar números com o símbolo decimal ponto, e não vírgula');
+    return
+  }
+  
+  if (isNaN(valorDespesa)) {
+    alert('Você deve digitar um número no campo valor!');
+    return;
+  }
+  
+  const valor = Number(valorDespesa);
+  
+  const despesa = {
+    descricao: descricaoDespesa,
+    valor: valor,
+    categoria: 'Despesa'
+  };
+  
+  // financas.transacoes.push(despesa);
+  // financas.saldo = financas.saldo - valor;
+  
+  // setSaldo();
+  // adicionaTransacoes();
+  enviaDados(despesa);
+  getTransacoes();
+}
+
+function adicionarReceita() {
+  const descricaoReceita = window.prompt('Qual a descricao de sua receita?');
+  const valorReceita = window.prompt('Qual o valor de sua receita?');
+  
+  if (valorReceita.indexOf(',') > 0) {
+    alert('Você deve digitar números com o símbolo decimal ponto, e não vírgula');
+    return
+  }
+  
+  if (isNaN(valorReceita)) {
+    alert('Você deve digitar um número no campo valor!');
+    return;
+  }
+  
+  const valor = Number(valorReceita);
+  
+  const receita = {
+    descricao: descricaoReceita,
+    valor: valor,
+    categoria: 'Receita'
+  };
+  
+  // financas.transacoes.push(receita);
+  // financas.saldo = financas.saldo + valor;
+  // setSaldo();
+  // adicionaTransacoes();
+  enviaDados(receita);
+  getTransacoes();
+}
+
+// adicionarDespesa();
+// adicionarReceita();
+
+// exibirFinancas();
+
+function setSaldo(saldo) {
+  document.getElementById('saldo').innerHTML = `Saldo: R$ ${saldo}`;
+}
+
+function adicionaTransacoes(transacoes) {
+  let tabela = '';
+
+  transacoes.reverse().forEach(transacao => {
+    let colunaDescricao = `<td class="coluna-descricao">${transacao.descricao}</td>`;
+    let colunaCategoria = ` <td class="coluna-categoria">${transacao.categoria}</td>`;
+    let colunaValor = `<td class="coluna-valor">${transacao.valor}</td>`;
+    let linha = `<tr>${colunaDescricao}${colunaCategoria}${colunaValor}</tr>`
+    tabela += linha
+  });
+  document.getElementById('lista-transacoes-conteudo').innerHTML = tabela;
+}
+
+// Aqui estamos criando os eventos de clique nos botões
+document.getElementById('botao-despesa').addEventListener('click', adicionarDespesa);
+document.getElementById('botao-receita').addEventListener('click', adicionarReceita);
+
+async function getTransacoes() {
+  const url = 'https://3000-tjvj07-revisanode-c373ttcwm3k.ws-us63.gitpod.io/transacoes';
+  
+  const resposta = await fetch(url);
+  const financas = await resposta.json();
+  
+  setSaldo(financas.saldo);
+  adicionaTransacoes(financas.transacoes);
+  console.log(financas);
+}
+
+async function enviaDados(transacao) {
+  const url = 'https://3000-tjvj07-revisanode-c373ttcwm3k.ws-us63.gitpod.io/transacoes';
+  
+  const requisicao = await fetch(url, { method: 'POST', body: JSON.stringify(transacao) })
+}
+
+getTransacoes();
+
+
+  </script>
