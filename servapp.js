@@ -12,7 +12,7 @@ app.use(express.static(`${__dirname}/public`))
 
 app.get('/transacoes', async (req, res) => {
     const repositorio = new TransacoesRepositorio()
-    const transacoes = repositorio.listarTransacoes()
+    const transacoes = await repositorio.listarTransacoes()
     let saldo = 0
     transacoes.transacoes.forEach((transacao) => {
         if(transacao.categoria === "Despesa"){
@@ -30,7 +30,7 @@ app.get('/transacoes', async (req, res) => {
 app.post('/transacoes',async (req, res) =>{
   const repositorio = new TransacoesRepositorio()
   const transacao = req.body
-  repositorio.criarTransacoes(transacao)
+  await repositorio.criarTransacoes(transacao)
   res.status(201).send(transacao)
 
 })

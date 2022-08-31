@@ -1,4 +1,4 @@
-const {Pool} = require('./infra/sql-transacoes-repositorio.js')
+const {Pool} = require('pg')
 const pool = new Pool()
 
 class SqlTransacoesRepositorio{ 
